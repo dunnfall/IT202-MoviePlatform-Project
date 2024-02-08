@@ -6,9 +6,15 @@ $a4 = [10.01, -12.22, 0.23, 19.20, -5.13, 3.12];
 function getTotal($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     $total = 0.00;
+    foreach($arr as $number)
+    {
+        $total += $number;
+    }
+    $total = round($total, 2);
     //note: use the $arr variable, don't directly touch $a1-$a4
     //TODO do adding here
     //TODO do rounding stuff here (round to two decimals i.e., 0.10, 0.01, 0.00)
+    // DF39, 2/7/2023
     echo "The total is " . var_export($total, true);
 }
 echo "Problem 2: Adding Floats<br>";
@@ -41,9 +47,3 @@ echo "Problem 2: Adding Floats<br>";
         border-spacing: 2em 3em;
         border-collapse: separate;
     }
-
-    td {
-        border-right: solid 1px black;
-        border-left: solid 1px black;
-    }
-</style>
