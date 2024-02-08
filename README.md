@@ -1,3 +1,3 @@
-# df39-it202-008
+# IT 202 Repo!
 
-# This is my IT202-008 Repo!
+# php -S localhost:3000 -t public_html
