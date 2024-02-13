@@ -8,17 +8,75 @@
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+            
+            var links = document.querySelectorAll('nav a');
+            var h1 = document.querySelector('h1');
+            var title = document.querySelector('title');
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var linkText = this.textContent;
+                    h1.textContent = linkText;
+                    title.textContent = linkText;
+                });
+            }
         });
         function getCurrentSelection() {
             setTimeout(() => {
                 //added this delay here as some solutions may require it to update properly (i.e., click code may complete before the navigation changes)
                 //TODO: add code for processing the current selection 
-
+                
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
         }
-    </script>
+        </script>
     <style>
+        nav ul {
+            display: flex;
+            width: 20%;
+            height: 40%;
+            background: black;
+            color: white;
+            flex-direction: row;
+            list-style-type: none;
+            align-self: center;
+        }
+        
+        nav a {
+            display: inline-block
+        }
+
+        nav a::first-letter {
+            text-transform: uppercase;
+        }
+
+        nav li {
+            padding: 4px;
+        }
+
+        nav li a:hover {
+            color: white;
+        }
+
+        ul {
+            list-style-type: none;
+            color: white;
+            flex-direction: row;
+            align-self: center;
+            background: black; 
+        }
+
+        ul li ul li::before {
+            content: "✓";
+        }
+
+        h1::first-letter {
+            text-transform: uppercase;
+        }
+
+    
+
+
         /* TODO: make edits here */
     </style>
     <!-- make the necessary edits above this line -->
