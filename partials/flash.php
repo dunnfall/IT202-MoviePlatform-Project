@@ -20,30 +20,6 @@
             target.after(ele);
         }
     }
+
     moveMeUp(document.getElementById("flash"));
 </script>
-
-<style>
-.alert-success {
-    background-color: green
-}
-
-.alert-warning {
-    background-color: yellow;
-}
-
-.alert-danger {
-    background-color: red;
-}
-
-.alert-info {
-    background-color: teal;
-}
-
-/* nav li{display: inline; background-color: rebeccapurple;}
-nav li a{color: hotpink}
-body{
-background-color: hotpink;
-color: rgb(153, 0, 153);
-} */
-</style>
