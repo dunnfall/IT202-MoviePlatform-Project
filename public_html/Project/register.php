@@ -23,8 +23,33 @@ reset_session();
 </form>
 <script>
     function validate(form) {
-        //TODO 1: implement JavaScript validation
-        //ensure it returns false for an error and true for success
+        var email = form.email.value;
+        var username = form.username.value;
+        var password = form.password.value;
+        var confirm = form.confirm.value;
+
+        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        var usernameRegex = /^[a-zA-Z0-9]{2,30}$/;
+
+        if (!emailRegex.test(email)) {
+            flash("Please enter a valid email address (CLIENT)", "warning");
+            return false;
+        }
+
+        if (!usernameRegex.test(username)) {
+            flash("Username must be between 2 and 30 characters long and must only be alphanumeric characters (CLIENT)");
+            return false;
+        }
+
+        if (password.length < 8) {
+            flash("Password must be at least 8 characters long (CLIENT)");
+            return false;
+        }
+
+        if (password !== confirm) {
+            flash("Passwords do not match (CLIENT)");
+            return false;
+        }
 
         return true;
     }
@@ -79,7 +104,7 @@ if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm
         try {
             $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
             flash("Successfully registered!", "success");
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             users_check_duplicate($e->errorInfo);
         }
     }

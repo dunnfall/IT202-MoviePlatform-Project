@@ -5,3 +5,4 @@ reset_session();
 
 flash("Successfully logged out", "success");
 header("Location: login.php");
+//DF39 4/1/2024 StudentID:31523743
