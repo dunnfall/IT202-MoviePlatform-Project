@@ -23,6 +23,7 @@ reset_session();
 </form>
 <script>
     function validate(form) {
+        // DF39 4/1/2024 
         var email = form.email.value;
         var username = form.username.value;
         var password = form.password.value;
@@ -50,7 +51,6 @@ reset_session();
             flash("Passwords do not match (CLIENT)");
             return false;
         }
-
         return true;
     }
 </script>
