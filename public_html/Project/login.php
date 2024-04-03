@@ -47,6 +47,7 @@ require_once(__DIR__ . "/../../partials/nav.php");
 </script>
 <?php
 //TODO 2: add PHP Code
+//DF39 4/1/2024
 if (isset($_POST["email"]) && isset($_POST["password"])) {
     $email = se($_POST, "email", "", false); //$_POST["email"];
     $password = se($_POST, "password", "", false); //$_POST["password"];

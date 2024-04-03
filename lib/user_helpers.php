@@ -4,6 +4,7 @@
  * Passing $redirect as true will auto redirect a logged out user to the $destination.
  * The destination defaults to login.php
  */
+//DF39 4/1/2024
 function is_logged_in($redirect = false, $destination = "login.php")
 {
     $isLoggedIn = isset($_SESSION["user"]);
@@ -14,6 +15,7 @@ function is_logged_in($redirect = false, $destination = "login.php")
     }
     return $isLoggedIn;
 }
+//DF39 4/1/2024
 function has_role($role)
 {
     if (is_logged_in() && isset($_SESSION["user"]["roles"])) {
