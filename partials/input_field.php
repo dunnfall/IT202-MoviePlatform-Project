@@ -38,7 +38,7 @@
         <?php elseif ($_type === "checkbox") : ?>
             <div class="form-check">
                 <input class="form-check-input" name="<?php se($_name); ?>" type="checkbox" value="<?php se($_value); ?>" id="<?php se($_id); ?>">
-                <label class="form-check-label" for="<?php se($_id); ?>">
+                <label class="form-check-label"  for="<?php se($_id); ?>">
                     <?php se($_label); ?>
                 </label>
             </div>

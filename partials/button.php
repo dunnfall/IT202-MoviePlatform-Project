@@ -10,7 +10,6 @@
         <button class="btn btn-<?php se($_btn_color); ?>"><?php se($_btn_text); ?></button>
     <?php elseif ($_btn_type === "submit") : ?>
         <input type="submit" class="btn btn-<?php se($_btn_color); ?>" value="<?php se($_btn_text); ?>" />
-        <button class="btn btn-<?php se($_btn_color); ?>"><?php se($_btn_text); ?></button>
     <?php elseif ($_btn_type === "reset") : ?>
         <input type="reset" class="btn btn-<?php se($_btn_color); ?>" value="<?php se($_btn_text); ?>" />
     <?php endif; ?>
