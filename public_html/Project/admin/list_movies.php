@@ -102,7 +102,8 @@ try{
 $table = [
     "data" => $results, "title" => "Latest Movies", "ignored columns" => ["id"],
     "edit_url" => get_url("admin/edit_movies.php"),
-    "delete_url" => get_url("admin/delete_movies.php")
+    "delete_url" => get_url("admin/delete_movies.php"),
+    "view_url" => get_url("admin/view_movies.php")
 ];
 ?>
 
