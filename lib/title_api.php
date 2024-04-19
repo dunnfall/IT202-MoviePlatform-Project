@@ -1,5 +1,6 @@
 <?php
-require(__DIR__ . "/../../partials/nav.php");
+function fetchTitle($searchName = "")
+{
 
 // if (isset($_GET["symbol"])) {
     //function=GLOBAL_QUOTE&symbol=MSFT&datatype=json
@@ -50,27 +51,19 @@ require(__DIR__ . "/../../partials/nav.php");
     {
     flash("Record(s) Added!", "success");
     }
-
+    $params = [];
+    $db = getDB();
+    $stmt = $db->prepare($query);
+    $result = [];
+    try {
+        $stmt->execute($params);
+        $r = $stmt->fetchAll();
+        if ($r) {
+            $result = $r;
+        }
+    } catch (PDOException $e) {
+        error_log("Error fetching Title " . $e->getMessage());
+        flash("Unhandled error occured" . $e->getMessage());
+}
+}
 ?>
-<div class="container-fluid">
-    <h1>Movie Info</h1>
-    <p>Remember, we typically won't be frequently calling live data from our API, this is merely a quick sample. We'll want to cache data in our DB to save on API quota.</p>
-    <form method="POST">
-        <div>
-            <label>Movie Name</label>
-            <input name="movie_title" />
-            <input type="submit" value="Fetch Movie" />
-        </div>
-    </form>
-    <div class="row ">
-        <?php if (isset($result)) : ?>
-            <?php foreach ($result as $stock) : ?>
-                <pre>
-                    <?php var_export($stock);?>
-                </pre>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-</div>
-<?php
-require(__DIR__ . "/../../partials/flash.php");
