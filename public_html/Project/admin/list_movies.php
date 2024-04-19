@@ -5,7 +5,7 @@ require(__DIR__ . "/../../../partials/nav.php");
 ?>
 
 <?php
-$query = "SELECT id, year, title, imdb_id from Movies ORDER BY created DESC LIMIT 50";
+$query = "SELECT id, year, title, imdb_id, source from Movies ORDER BY created DESC LIMIT 50";
 $db = getDB();
 $stmt = $db ->prepare($query);
 $results = [];
