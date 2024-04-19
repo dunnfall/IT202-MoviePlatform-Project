@@ -22,14 +22,6 @@ if (isset($_POST["role_id"])) {
     }
 }
 
-$form = [];
-if ($stock) {
-    $form = [
-        ["type" => "text", "name" => "title", "label" => "Movie Name", "placeholder" => "Movie Name", "value" => "Movie Title", "rules" => ["required" => "required"]],
-        ["type" => "year", "name" => "year", "label" => "Movie Year", "placeholder" => "Movie Year", "value" => "Year of Release", "rules" => ["required" => "required"]],
-        ["type" => "text", "name" => "imdb_id", "label" => "IMDB ID","placeholder" => "Movie IMDB ID", "value" => "IMDB ID", "rules" => ["required" => "required"]],
-    ];
-}
 
 
 $query = "SELECT id, name, description, if(is_active, 'active', 'disabled') as 'Active' from Roles";

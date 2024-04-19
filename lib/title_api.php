@@ -28,7 +28,7 @@ function fetchTitle($searchName = "")
     }
 
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title) VALUES(:year, :imdb_id, :title)");
+    $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title, source) VALUES(:year, :imdb_id, :title)");
     
     foreach($result as $movie){
         foreach($movie as $index => $value){
@@ -52,6 +52,7 @@ function fetchTitle($searchName = "")
     flash("Record(s) Added!", "success");
     }
     $params = [];
+
     $db = getDB();
     $stmt = $db->prepare($query);
     $result = [];
