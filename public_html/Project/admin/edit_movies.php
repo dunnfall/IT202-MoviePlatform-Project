@@ -2,7 +2,7 @@
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../../partials/nav.php");
 ?>
-
+<!-- DF39 4/19/2024 -->
 <?php
 $id = se($_GET, "id", -1, false);
 //TODO handle stock fetch
@@ -43,7 +43,7 @@ if (isset($_POST["title"])) {
         flash("Movie Name Already Exists, Enter a New Name", "danger");
     }
 }
-
+//DF39 4/19/2024
 $stock = [];
 if ($id > -1) {
     //fetch
@@ -64,6 +64,7 @@ if ($id > -1) {
     flash("Invalid id passed", "danger");
     die(header("Location:" . get_url("admin/list_movies.php")));
 }
+//DF39 4/19/24
 $form = [];
 if ($stock) {
     $form = [
@@ -84,7 +85,7 @@ if ($stock) {
 ?>
 <div class="container-fluid">
     <h3>Edit Movie</h3>
-    <form method="POST">
+    <form id="movieForm" method="POST">
         <?php foreach ($form as $k => $v) {
 
             render_input($v);
