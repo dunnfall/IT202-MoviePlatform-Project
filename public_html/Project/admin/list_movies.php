@@ -19,7 +19,7 @@ $form = [
 error_log("Form data: " . var_export($form, true));
 
 
-$query = "SELECT title, year, imdb_id, source FROM `Movies` WHERE 1=1";
+$query = "SELECT id, title, year FROM `Movies` WHERE 1=1";
 $params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
 $is_clear = isset($_GET["clear"]);
@@ -96,7 +96,7 @@ try{
 } catch (PDOException $e)
     {
     error_log("Error Fetching Movies" . var_export($e, true));
-    flash("Unhandled Error Occured", "danger");
+    flash("Unable to Find Movie ID", "danger");
     }
 
 $table = [
