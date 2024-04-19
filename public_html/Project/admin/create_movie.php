@@ -1,5 +1,6 @@
 <?php
 //note we need to go up 1 more directory
+//DF39 4/19/2024
 require(__DIR__ . "/../../../partials/nav.php");
 
 ?>
@@ -70,7 +71,7 @@ require(__DIR__ . "/../../../partials/nav.php");
     $rapidType = "get-movies-by-title";
     $movie_title = "";
     $data = ["title" => "$movie_title"];
-
+    // Fetching Data From API
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_POST['action'] == 'fetch') 
         {
@@ -78,6 +79,7 @@ require(__DIR__ . "/../../../partials/nav.php");
             $data = ["title" => "$movie_title"];
             $result = get($endpoint, "MOVIE_KEY", $data, $isRapidAPI, $rapidAPIHost);
         }
+        // Getting Data From Manual Creation Page
         elseif ($_POST['action'] == 'create') { 
             try {
                 // Manual Entry Insert into DB
@@ -93,7 +95,7 @@ require(__DIR__ . "/../../../partials/nav.php");
                 if ($e->errorInfo[1] == 1062) { // 1062 is the SQLSTATE for a unique constraint violation
                     flash("A movie with the same title already exists", "warning");
                 } else {
-                    throw $e; // rethrow the exception if it's not a unique constraint violation
+                    throw $e;
                 }
             }
         }
@@ -140,6 +142,7 @@ require(__DIR__ . "/../../../partials/nav.php");
 ?>
 
 <script>
+    // DF39 4/19/2024
     function validateForm(formId) {
     let form = document.getElementById(formId);
     let title = form['title'];
