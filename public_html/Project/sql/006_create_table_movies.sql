@@ -8,4 +8,5 @@ CREATE TABLE IF NOT EXISTS `Movies` (
     `source` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE (`title`)
+    -- DF39 4/19/2024
 )
