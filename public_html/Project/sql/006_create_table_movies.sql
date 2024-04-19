@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS `Movies` (
     `title` VARCHAR(255) NOT NULL,
     `year` YEAR NOT NULL,
     `imdb_id` VARCHAR(50) NOT NULL,
-    PRIMARY KEY (`id`)
+    `source` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE (`title`)
 )

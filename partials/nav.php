@@ -33,7 +33,7 @@ session_start();
 <script src="<?php echo get_url('helpers.js'); ?>"></script>
 <nav class="navbar navbar-expand-lg bg-warning">
   <div class="container-fluid">
-        <a class="navbar-brand" href="#">Movies</a>
+        <a class="navbar-brand" href="#">Movie Watch</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,6 +42,8 @@ session_start();
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('home.php'); ?>">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('admin/create_movie.php'); ?>">Create/Fetch Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('admin/list_movies.php'); ?>">List/Edit Movies</a></li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('login.php'); ?>">Login</a></li>
@@ -55,7 +57,7 @@ session_start();
                         <ul class="dropdown-menu">
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/create_role.php'); ?>">Create Role</a></li>
-                            <li ><a class="dropdown-item" href="<?php echo get_url('admin/list_roles.php'); ?>">List Roles</a></li>
+                            <li ><a class="dropdown-item" href="<?php echo get_url('/admin/list_roles.php'); ?>">List Roles</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>

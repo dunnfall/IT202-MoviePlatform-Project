@@ -2,10 +2,6 @@
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../../partials/nav.php");
 
-if (!has_role("Admin")) {
-    flash("You don't have permission to view this page", "warning");
-    die(header("Location: $BASE_PATH" . "/home.php"));
-}
 ?>
 
 
@@ -28,14 +24,14 @@ if (!has_role("Admin")) {
                 </li>
             </ul>
             <div id="fetch" class="tab-target">
-                <form method="POST">
+                <form method="POST" id="fetchForm" onsubmit="return validateForm('fetchForm')">
                     <?php render_input(["type" => "search", "name" => "movie_title", "placeholder" => "Movie Title", "value" => "Fetch Movie", "rules" => ["required" => "required"]]);?>
                     <?php render_input(["type" => "hidden", "name" => "action", "value" => "fetch"]) ?>
                     <?php render_button(["text" => "Fetch", "type" => "submit"]); ?>
                 </form>
             </div>
             <div id="create" style="display: none;" class="tab-target">
-                <form method="POST">
+                <form method="POST" id="createForm" onsubmit="return validateForm('createForm')">
                     <?php render_input(["type" => "text", "name" => "title", "label" => "Movie Name", "placeholder" => "Movie Name", "value" => "Movie Title", "rules" => ["required" => "required"]]);?>
                     <?php render_input(["type" => "year", "name" => "year", "label" => "Movie Year", "placeholder" => "Movie Year", "value" => "Year of Release", "rules" => ["required" => "required"]]);?>
                     <?php render_input(["type" => "text", "name" => "imdb_id", "label" => "IMDB ID","placeholder" => "Movie IMDB ID", "value" => "IMDB ID", "rules" => ["required" => "required"]]);?>
@@ -63,7 +59,6 @@ if (!has_role("Admin")) {
             </script>
 
 <?php 
-
     //TODO handle movie fetch and movie creation
     //DF39 4/18/2024
     $db = getDB();
@@ -82,14 +77,25 @@ if (!has_role("Admin")) {
             $movie_title = $_POST["movie_title"];
             $data = ["title" => "$movie_title"];
             $result = get($endpoint, "MOVIE_KEY", $data, $isRapidAPI, $rapidAPIHost);
-        } elseif ($_POST['action'] == 'create') {
-            $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title) VALUES(:year, :imdb_id, :title)");
-            $stmt->execute([
-                ":year" => $_POST['year'],
-                ":imdb_id" => $_POST['imdb_id'],
-                ":title" => $_POST['title']
-            ]);
-            flash("New Manually Created Record Added!", "success");
+        }
+        elseif ($_POST['action'] == 'create') { 
+            try {
+                // Manual Entry Insert into DB
+                $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title, source) VALUES(:year, :imdb_id, :title, :source)");
+                $stmt->execute([
+                    ":year" => $_POST['year'],
+                    ":imdb_id" => $_POST['imdb_id'],
+                    ":title" => $_POST['title'],
+                    ":source" => 'manual'
+                ]);
+                flash("New Manually Created Movie Added!", "success");
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) { // 1062 is the SQLSTATE for a unique constraint violation
+                    flash("A movie with the same title already exists", "warning");
+                } else {
+                    throw $e; // rethrow the exception if it's not a unique constraint violation
+                }
+            }
         }
     }
     else {
@@ -104,20 +110,23 @@ if (!has_role("Admin")) {
     }
     //inserting data into db from api
     //DF39 4/18/24
+    
     $db = getDB();
     $success = False;
-    $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title) VALUES(:year, :imdb_id, :title)");
+    $stmt = $db->prepare("INSERT INTO Movies (year, imdb_id, title, source) VALUES(:year, :imdb_id, :title, :source)");
     foreach($result as $movie){
         foreach($movie as $index => $value){
             error_log("Title: " . var_export($value['title'], true));
             error_log("Year: " . var_export($value['year'], true));
             error_log("ID: " . var_export($value['imdb_id'], true));
             try {
-                $stmt->execute([":year" => $value['year'], ":imdb_id" => $value['imdb_id'], ":title" => $value['title']]);
+                $stmt->execute([":year" => $value['year'], ":imdb_id" => $value['imdb_id'], ":title" => $value['title'], ":source" => 'api']);
                 $success = True;
             } catch (PDOException $e) {
-                // users_check_duplicate($e->errorInfo);
-                error_log("Error " . var_export($e, true));
+                if ($e->errorInfo[1] == 1062) 
+                { // 1062 is the SQLSTATE for a unique constraint violation
+                    flash("A movie with the same title already exists", "warning");
+                }
             }
         }
         if(gettype($movie) === "array"){
@@ -128,6 +137,36 @@ if (!has_role("Admin")) {
         flash("Record(s) Added!", "success");
     }
 ?>
+
+<script>
+    function validateForm(formId) {
+    let form = document.getElementById(formId);
+    let title = form['title'];
+    let year = form['year'];
+    let imdb_id = form['imdb_id'];
+    let movie_title = form['movie_title'];
+
+    if (formId === 'createForm') {
+        if (!title.value || !year.value || !imdb_id.value) {
+            flash("All fields must be filled out");
+            return false; // Stop the form from submitting
+        }
+
+        // Validating Data Types
+        if (!isNaN(title.value) || isNaN(year.value) || !isNaN(imdb_id.value)) {
+            flash("Invalid Data Type for Year, Movie or IMDB_ID", "warning");
+            return false;
+        }
+    } else if (formId === 'fetchForm') {
+        if (!movie_title.value) {
+            flash("Movie title must be filled out");
+            return false; // Stop the form from submitting
+        }
+    }
+
+    return true; 
+}
+</script>
 
 
 
