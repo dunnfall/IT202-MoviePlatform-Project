@@ -13,9 +13,13 @@
     .alert-info {
         background-color: teal;
     }
-    nav li{display: inline; background-color: red;}
-    nav li a{color: White}
+    nav li{display: inline; background-color: orange;}
+    nav li a{color: orange}
     body{
     background-color: orange;
     color: black;
+
+    .nav-link{
+        color: black !important;
+    }
 }

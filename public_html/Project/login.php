@@ -1,20 +1,16 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 ?>
-<form onsubmit="return validate(this);" method="POST">
-    <div>
-        <label for="email">Email/Username</label>
-        <input type="text" name="email" required />
-    </div>
-    <div>
-        <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
-    </div>
-    <input type="submit" value="Login" />
-</form>
+<div class="container-fluid">
+    <form onsubmit="return validate(this)" method="POST">
+        <?php render_input(["type" => "text", "id" => "email", "name" => "email", "label" => "Email/Username", "rules" => ["required" => true]]); ?>
+        <?php render_input(["type" => "password", "id" => "password", "name" => "password", "label" => "Password", "rules" => ["required" => true, "minlength" => 8]]); ?>
+        <?php render_button(["text" => "Login", "type" => "submit"]); ?>
+    </form>
+</div>
 <script>
     function validate(form) {
-        //TODO 1: implement JavaScript validation
+                //TODO 1: implement JavaScript validation
         //ensure it returns false for an error and true for success
         // DF39 4/1/2024 ---- StudentID:31523743
         var password = form.password.value;
@@ -41,56 +37,41 @@ require_once(__DIR__ . "/../../partials/nav.php");
             flash("Password must be at least 8 characters long (CLIENT)", "warning");
             return false;
         }
-
         return true;
     }
 </script>
 <?php
 //TODO 2: add PHP Code
-//DF39 4/1/2024
 if (isset($_POST["email"]) && isset($_POST["password"])) {
-    $email = se($_POST, "email", "", false); //$_POST["email"];
-    $password = se($_POST, "password", "", false); //$_POST["password"];
+    $email = se($_POST, "email", "", false);
+    $password = se($_POST, "password", "", false);
 
     //TODO 3
     $hasError = false;
     if (empty($email)) {
-        flash("Email must be provided (Server)");
+        flash("Email must be provided <br>");
         $hasError = true;
     }
-    //sanitize
-    //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-   
-    //validate
-    /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        flash("Please enter a valid email <br>");
-        $hasError = true;
-    }*/
     if (str_contains($email, "@")) {
         //sanitize
-        //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $email = sanitize_email($email);
         //validate
-        /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            flash("Invalid email address");
-            $hasError = true;
-        }*/
         if (!is_valid_email($email)) {
-            flash("Invalid email address (Server)");
+            flash("Invalid email address");
             $hasError = true;
         }
     } else {
         if (!is_valid_username($email)) {
-            flash("Invalid username (Server)");
+            flash("Invalid username");
             $hasError = true;
         }
     }
     if (empty($password)) {
-        flash("Password must be provided (Server)");
+        flash("Password must be provided <br>");
         $hasError = true;
     }
-    if (strlen($password) < 8) {
-        flash("Password must be at least 8 characters long (Server)");
+    if (!is_valid_password($password)) {
+        flash("Password must be at least 8 characters long <br>");
         $hasError = true;
     }
     if (!$hasError) {
@@ -128,7 +109,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         flash("Invalid password");
                     }
                 } else {
-                    flash("Account not found");
+                    flash("Email not found");
                 }
             }
         } catch (Exception $e) {
