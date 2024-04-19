@@ -108,6 +108,7 @@ require(__DIR__ . "/../../../partials/nav.php");
     } else {
         $result = [];
     }
+    
     //inserting data into db from api
     //DF39 4/18/24
     
