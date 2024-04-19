@@ -1,11 +1,11 @@
 <?php
 //note we need to go up 1 more directory
+//DF39 4/19/2024
 require(__DIR__ . "/../../../partials/nav.php");
 ?>
 
 <?php
 $id = se($_GET, "id", -1, false);
-
 
 $broker = [];
 if ($id > -1) {
@@ -23,8 +23,9 @@ if ($id > -1) {
             die(header("Location:" . get_url("admin/list_movies.php")));
         }
     } catch (PDOException $e) {
-        error_log("Error fetching record: " . var_export($e, true));
-        flash("Error fetching record", "danger");
+        if ($e->errorInfo[1] == 1062) { // 1062 is the SQLSTATE for a unique constraint violation
+            flash("A movie with the same title already exists", "warning");
+        }
     }
 } 
 foreach ($broker as $key => $value) {
@@ -60,9 +61,7 @@ foreach ($broker as $key => $value) {
             </div>
         </div>
     </div>
-
 </div>
-
 
 <?php
 //note we need to go up 1 more directory
