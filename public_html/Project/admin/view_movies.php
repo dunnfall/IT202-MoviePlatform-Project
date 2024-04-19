@@ -59,6 +59,8 @@ foreach ($broker as $key => $value) {
                     <li class="list-group-item">Created: <?php se($broker, "created", "Unknown"); ?></li>
                     <li class="list-group-item">Modified: <?php se($broker, "modified", "Unknown"); ?></li>
                 </ul>
+                <a href="<?php echo get_url("admin/edit_movies.php?id=" . $broker['id']); ?>" class="btn btn-primary">Edit</a>
+                <a href="<?php echo get_url("admin/delete_movies.php?id=" . $broker['id']); ?>" class="btn btn-danger">Delete</a>
 
             </div>
         </div>

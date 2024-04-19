@@ -1,7 +1,7 @@
 <?php
 //note we need to go up 1 more directory
+//DF39 4/19/2024
 require(__DIR__ . "/../../../partials/nav.php");
-
 ?>
 
 <?php
@@ -18,7 +18,7 @@ $form = [
 ];
 error_log("Form data: " . var_export($form, true));
 
-
+//DF39 4/19/2024
 $query = "SELECT id, title, year FROM `Movies` WHERE 1=1";
 $params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
@@ -107,6 +107,7 @@ $table = [
 ];
 ?>
 
+<!-- DF39 4/19/2024 -->
 <div class="container-fluid">
     <h3>List Movies</h3>
     <form method="GET">
