@@ -107,6 +107,10 @@ $table = [
     "view_url" => get_url("user_movies.php"),
     "favorite_url" => get_url("api/favorite_movie.php")
 ];
+
+if (empty($results)) {
+    flash("No Movies Found With The Used Filters", "danger");
+}
 ?>
 
 <!-- DF39 4/19/2024 -->
