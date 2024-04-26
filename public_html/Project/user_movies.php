@@ -1,12 +1,7 @@
 <?php
 //note we need to go up 1 more directory
 //DF39 4/19/2024
-require(__DIR__ . "/../../../partials/nav.php");
-
-if (!has_role("Admin")) {
-    flash("You don't have permission to view this page", "warning");
-    redirect("home.php");
-}
+require(__DIR__ . "/../../partials/nav.php");
 ?>
 
 <?php
@@ -25,7 +20,7 @@ if ($id > -1) {
             $broker = $r;
         } else {
             flash("Invalid ID Passed, Use a Valid ID", "danger");
-            redirect("admin/list_movies.php");
+            redirect("user_movies.php");
         }
     } catch (PDOException $e) {
         if ($e->errorInfo[1] == 1062) { // 1062 is the SQLSTATE for a unique constraint violation
@@ -43,7 +38,7 @@ foreach ($broker as $key => $value) {
 <div class="container-fluid">
     <h3>Movie: <?php se($broker, "title", "Unknown"); ?></h3>
     <div>
-        <a href="<?php echo get_url("admin/list_movies.php"); ?>" class="btn btn-secondary">Back</a>
+        <a href="<?php echo get_url("movies.php"); ?>" class="btn btn-secondary">Back</a>
     </div>
     <!-- https://i.kym-cdn.com/entries/icons/original/000/029/959/Screen_Shot_2019-06-05_at_1.26.32_PM.jpg -->
     <div class="card mx-auto">
@@ -60,8 +55,7 @@ foreach ($broker as $key => $value) {
                     <li class="list-group-item">Created: <?php se($broker, "created", "Unknown"); ?></li>
                     <li class="list-group-item">Modified: <?php se($broker, "modified", "Unknown"); ?></li>
                 </ul>
-                <a href="<?php echo get_url("admin/edit_movies.php?id=" . $broker['id']); ?>" class="btn btn-primary">Edit</a>
-                <a href="<?php echo get_url("admin/delete_movies.php?id=" . $broker['id']); ?>" class="btn btn-danger">Delete</a>
+                <a href="<?php echo get_url("api/favorite_movie?id=" . $broker['id']); ?>" class="btn btn-danger">Favorite</a>
             </div>
         </div>
     </div>
@@ -69,6 +63,6 @@ foreach ($broker as $key => $value) {
 
 <?php
 //note we need to go up 1 more directory
-require_once(__DIR__ . "/../../../partials/flash.php");
+require_once(__DIR__ . "/../../partials/flash.php");
 
 ?>

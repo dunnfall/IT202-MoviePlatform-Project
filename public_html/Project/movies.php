@@ -1,12 +1,7 @@
 <?php
 //note we need to go up 1 more directory
 //DF39 4/19/2024
-require(__DIR__ . "/../../../partials/nav.php");
-
-if (!has_role("Admin")) {
-    flash("You don't have permission to view this page", "warning");
-    redirect("home.php");
-}
+require(__DIR__ . "/../../partials/nav.php");
 ?>
 
 <?php
@@ -32,7 +27,6 @@ if ($is_clear) {
     session_delete($session_key);
     unset($_GET["clear"]);
     redirect($session_key);
-    
 } else {
     $session_data = session_load($session_key);
 }
@@ -107,15 +101,14 @@ try{
 
 $table = [
     "data" => $results, "title" => "Latest Movies", "ignored columns" => ["id"],
-    "edit_url" => get_url("admin/edit_movies.php"),
-    "delete_url" => get_url("admin/delete_movies.php"),
-    "view_url" => get_url("admin/view_movies.php")
+    "view_url" => get_url("user_movies.php"),
+    "favorite_url" => get_url("api/favorite_movie.php")
 ];
 ?>
 
 <!-- DF39 4/19/2024 -->
 <div class="container-fluid">
-    <h3>List Movies</h3>
+    <h3>Movies</h3>
     <form method="GET">
         <div class="row mb-3" style="align-items: flex-end;">
 
@@ -129,10 +122,15 @@ $table = [
         <?php render_button(["text" => "Search", "type" => "submit", "text" => "Filter"]); ?>
         <a href="?clear" class="btn btn-secondary">Clear</a>
     </form>
-    <?php render_table($table); ?>
+    <div class="row w-100 row-cols-auto row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+        <?php foreach ($results as $broker) : ?>
+            <div class="col">
+                <?php render_movie_card($broker); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
 
 <?php
-//note we need to go up 1 more directory
-require_once(__DIR__ . "/../../../partials/flash.php");
+require_once(__DIR__ . "/../../partials/flash.php");
 ?>
