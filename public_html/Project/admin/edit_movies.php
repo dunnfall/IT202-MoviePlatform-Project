@@ -1,7 +1,14 @@
 <?php
 //note we need to go up 1 more directory
 require(__DIR__ . "/../../../partials/nav.php");
+
+if (!has_role("Admin")) {
+    flash("You don't have permission to view this page", "warning");
+    redirect("home.php");
+}
 ?>
+
+
 <!-- DF39 4/19/2024 -->
 <?php
 $id = se($_GET, "id", -1, false);
@@ -62,7 +69,7 @@ if ($id > -1) {
     }
 } else {
     flash("Invalid id passed", "danger");
-    die(header("Location:" . get_url("admin/list_movies.php")));
+    redirect("admin/list_movies.php");
 }
 //DF39 4/19/24
 $form = [];
@@ -85,6 +92,7 @@ if ($stock) {
 ?>
 <div class="container-fluid">
     <h3>Edit Movie</h3>
+    <a href="<?php echo get_url("admin/list_movies.php"); ?>" class="btn btn-secondary">Back</a>
     <form id="movieForm" method="POST">
         <?php foreach ($form as $k => $v) {
 
