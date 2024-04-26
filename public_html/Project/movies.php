@@ -79,6 +79,7 @@ if (count($_GET) > 0) {
     if ($limit < 1 || $limit > 100) {
         $limit = 10;
     }
+
     //IMPORTANT make sure you fully validate/trust $limit (sql injection possibility)
     $query .= " LIMIT $limit";
 }
@@ -97,6 +98,10 @@ try{
     {
     error_log("Error Fetching Movies" . var_export($e, true));
     flash("Unable to Find Movie ID", "danger");
+    }
+
+    if (empty($results)) {
+        flash("No Movies Found With The Used Filters", "danger");
     }
 
 $table = [
