@@ -19,3 +19,8 @@ function render_movie_card($broker = array())
 {
     include(__DIR__ . "/../partials/movie_card.php");
 }
+
+function render_result_counts($result_count, $total_count)
+{
+    include(__DIR__ . "/../partials/result_counts.php");
+}

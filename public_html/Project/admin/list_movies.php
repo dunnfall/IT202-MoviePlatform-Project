@@ -3,6 +3,7 @@
 //DF39 4/19/2024
 require(__DIR__ . "/../../../partials/nav.php");
 
+
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
     redirect("home.php");
@@ -24,6 +25,7 @@ $form = [
 error_log("Form data: " . var_export($form, true));
 
 //DF39 4/19/2024
+$total_records = get_total_count("`Movies`");
 $query = "SELECT id, title, year FROM `Movies` WHERE 1=1";
 $params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
@@ -99,6 +101,9 @@ try{
     {
         $results = $r;
     }
+    else {
+        flash ("No Results Found From Filter", "warning");
+    }
 } catch (PDOException $e)
     {
     error_log("Error Fetching Movies" . var_export($e, true));
@@ -129,6 +134,7 @@ $table = [
         <?php render_button(["text" => "Search", "type" => "submit", "text" => "Filter"]); ?>
         <a href="?clear" class="btn btn-secondary">Clear</a>
     </form>
+    <?php render_result_counts(count($results), $total_records); ?>
     <?php render_table($table); ?>
 </div>
 
