@@ -33,6 +33,10 @@
                 </div>
             <?php else : ?>
                 <div class="card-body">
+                <a href="<?php echo get_url("profile.php?id=" . $broker["user_id"]); ?>"><?php se($broker, "username", "N/A"); ?>'s Profile</a>
+                <h3> 
+                    
+                </h3>
                 <a href="<?php echo get_url('api/unfavorite_movie.php?movie_id=' . $broker["id"]); ?>" class="card-link">Unfavorite Movie</a>
                 </div>
             <?php endif; ?>
