@@ -4,25 +4,7 @@
 require(__DIR__ . "/../../partials/nav.php");
 ?>
 
-
-
-
-
 <?php
-$db = getDB();
-if (isset($_GET["remove"])) {
-    $query = "DELETE FROM `UserMovies` WHERE user_id = :user_id";
-    try {
-        $stmt = $db->prepare($query);
-        $stmt->execute([":user_id" => get_user_id()]);
-        flash("Successfully Removed All Favorite Movies", "success");
-    } catch (PDOException $e) {
-        error_log("Error Removing Movie Associations: " . var_export($e, true));
-        flash("Error Removing Movie Associations", "danger");
-    }
-
-    redirect("my_movies.php");
-}
 
 $form = [
     ["type" => "text", "name" => "title", "placeholder" => "Title", "label" => "Title", "include_margin" => false],
@@ -34,17 +16,13 @@ $form = [
 
     ["type" => "number", "name" => "limit", "label" => "Limit", "value" => "10", "include_margin" => false],
 ];
-// error_log("Form data: " . var_export($form, true));
-
+error_log("Form data: " . var_export($form, true));
 
 //DF39 4/19/2024
-$total_records = get_total_count("`Movies` m LEFT JOIN `UserMovies` um on m.id = um.movie_id");
+$total_records = get_total_count("`Movies` m WHERE m.id NOT IN (SELECT movie_id FROM `UserMovies`)");
 
-$query = "SELECT m.id, title, year, user_id FROM `Movies` m
-JOIN `UserMovies` um ON m.id = um.movie_id
-WHERE user_id = :user_id";
-
-$params = [":user_id" => get_user_id()];
+$query = "SELECT m.id, title, year FROM `Movies` m WHERE m.id NOT IN (SELECT movie_id from `UserMovies`)";
+$params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
 $is_clear = isset($_GET["clear"]);
 if ($is_clear) {
@@ -103,11 +81,12 @@ if (count($_GET) > 0) {
     if ($limit < 1 || $limit > 100) {
         $limit = 10;
     }
+
     //IMPORTANT make sure you fully validate/trust $limit (sql injection possibility)
     $query .= " LIMIT $limit";
 }
 
-
+$db = getDB();
 $stmt = $db->prepare($query);
 $results = [];
 try{
@@ -126,22 +105,17 @@ try{
     flash("Unable to Find Movie ID", "danger");
     }
 
+
 $table = [
     "data" => $results, "title" => "Latest Movies", "ignored columns" => ["id"],
     "view_url" => get_url("user_movies.php"),
     "favorite_url" => get_url("api/favorite_movie.php")
 ];
-
-
 ?>
-
 
 <!-- DF39 4/19/2024 -->
 <div class="container-fluid">
-    <h3>My Favorited Movies</h3>
-    <div>
-        <a href = "?remove" onclick="confirm('Are You Sure You Want To Remove All Favorites')?'':event.preventDefault()" class = "btn btn-danger">  Remove All Favorited Movies </a>
-    </div>
+    <h3>Non-Favorited Movies</h3>
     <form method="GET">
         <div class="row mb-3" style="align-items: flex-end;">
 

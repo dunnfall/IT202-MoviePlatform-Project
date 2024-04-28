@@ -12,6 +12,7 @@ if (isset($_GET["movie_id"]) && is_logged_in()) {
         $stmt = $db->prepare($query);
         $stmt->execute([":user_id" => get_user_id(), ":movie_id" => $_GET["movie_id"]]);
         flash("Movie Added to Favorites", "success");
+        redirect("my_movies.php");
     } catch (PDOException $e) {
         flash("You Already Have This Movie Favorited", "danger");
         error_log("Error Favoriting Movie: " . var_export($e, true));

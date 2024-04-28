@@ -44,6 +44,7 @@ session_start();
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('admin/create_movie.php'); ?>">Create/Fetch Movies</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('my_movies.php'); ?>">Favorite Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo get_url('non_favorited_movies.php'); ?>">Non-Favorite Movies</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo get_url('movies.php'); ?>">Movies</a></li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
@@ -60,6 +61,7 @@ session_start();
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/create_role.php'); ?>">Create Role</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/list_roles.php'); ?>">List Roles</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/list_movies.php'); ?>">Edit/Delete Movies</a></li>
+                            <li ><a class="dropdown-item" href="<?php echo get_url('admin/movie_association.php'); ?>">Movie Association</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>

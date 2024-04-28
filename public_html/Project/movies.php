@@ -19,6 +19,7 @@ $form = [
 error_log("Form data: " . var_export($form, true));
 
 //DF39 4/19/2024
+$total_records = get_total_count("`Movies`");
 $query = "SELECT id, title, year FROM `Movies` WHERE 1=1";
 $params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
@@ -94,6 +95,9 @@ try{
     {
         $results = $r;
     }
+    else {
+        flash ("No Results Found From Filter", "warning");
+    }
 } catch (PDOException $e)
     {
     error_log("Error Fetching Movies" . var_export($e, true));
@@ -127,12 +131,18 @@ $table = [
         <?php render_button(["text" => "Search", "type" => "submit", "text" => "Filter"]); ?>
         <a href="?clear" class="btn btn-secondary">Clear</a>
     </form>
+    <?php render_result_counts(count($results), $total_records); ?>
     <div class="row w-100 row-cols-auto row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
         <?php foreach ($results as $broker) : ?>
             <div class="col">
                 <?php render_movie_card($broker); ?>
             </div>
         <?php endforeach; ?>
+        <?php if(count($results)===0):?>
+            <div class = "col">
+                No Results to Show
+            </div>
+        <?php endif;?>
     </div>
 </div>
 

@@ -11,7 +11,7 @@ if (isset($_GET["movie_id"]) && is_logged_in()) {
     try {
         $stmt = $db->prepare($query);
         $stmt->execute([":user_id" => get_user_id(), ":movie_id" => $_GET["movie_id"]]);
-        flash("Movie Added to Favorites", "success");
+        flash("Movie Has Been Unfavorited", "success");
     } catch (PDOException $e) {
         if ($e->errorInfo[1] === 1062) {
             flash("This Movie Has Already Been Added to Favorites", "danger");

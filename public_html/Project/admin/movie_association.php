@@ -1,30 +1,21 @@
 <?php
 //note we need to go up 1 more directory
 //DF39 4/19/2024
-require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__ . "/../../../partials/nav.php");
 ?>
 
-
-
-
+<?php
+//note we need to go up 1 more directory
+if (!has_role("Admin")) {
+    flash("You don't have permission to view this page", "warning");
+    redirect("home.php");
+}
+?>
 
 <?php
-$db = getDB();
-if (isset($_GET["remove"])) {
-    $query = "DELETE FROM `UserMovies` WHERE user_id = :user_id";
-    try {
-        $stmt = $db->prepare($query);
-        $stmt->execute([":user_id" => get_user_id()]);
-        flash("Successfully Removed All Favorite Movies", "success");
-    } catch (PDOException $e) {
-        error_log("Error Removing Movie Associations: " . var_export($e, true));
-        flash("Error Removing Movie Associations", "danger");
-    }
-
-    redirect("my_movies.php");
-}
 
 $form = [
+    ["type" => "text", "name" => "username", "placeholder" => "Username", "label" => "Username", "include_margin" => false],
     ["type" => "text", "name" => "title", "placeholder" => "Title", "label" => "Title", "include_margin" => false],
 
     ["type" => "text", "name" => "year", "placeholder" => "Year", "label" => "Year", "include_margin" => false],
@@ -36,15 +27,16 @@ $form = [
 ];
 // error_log("Form data: " . var_export($form, true));
 
-
 //DF39 4/19/2024
+
+
+
 $total_records = get_total_count("`Movies` m LEFT JOIN `UserMovies` um on m.id = um.movie_id");
 
-$query = "SELECT m.id, title, year, user_id FROM `Movies` m
-JOIN `UserMovies` um ON m.id = um.movie_id
-WHERE user_id = :user_id";
+$query = "SELECT u.username, m.id, title, year, user_id FROM `Movies` m
+JOIN `UserMovies` um ON m.id = um.movie_id JOIN Users u on u.id = um.user_id";
 
-$params = [":user_id" => get_user_id()];
+$params = [];
 $session_key = $_SERVER["SCRIPT_NAME"];
 $is_clear = isset($_GET["clear"]);
 if ($is_clear) {
@@ -69,6 +61,13 @@ if (count($_GET) > 0) {
             $form[$k]["value"] = $_GET[$v["name"]];
         }
     }
+    //username
+    $username = se($_GET, "username", "", false);
+    if (!empty($username)) {
+        $query .= " AND u.username like :username";
+        $params[":username"] = "%$username%";
+    }
+
     //title
     $title = se($_GET, "title", "", false);
     if (!empty($title)) {
@@ -107,7 +106,7 @@ if (count($_GET) > 0) {
     $query .= " LIMIT $limit";
 }
 
-
+$db = getDB();
 $stmt = $db->prepare($query);
 $results = [];
 try{
@@ -132,16 +131,11 @@ $table = [
     "favorite_url" => get_url("api/favorite_movie.php")
 ];
 
-
 ?>
-
 
 <!-- DF39 4/19/2024 -->
 <div class="container-fluid">
-    <h3>My Favorited Movies</h3>
-    <div>
-        <a href = "?remove" onclick="confirm('Are You Sure You Want To Remove All Favorites')?'':event.preventDefault()" class = "btn btn-danger">  Remove All Favorited Movies </a>
-    </div>
+    <h3>Movie Association</h3>
     <form method="GET">
         <div class="row mb-3" style="align-items: flex-end;">
 
@@ -171,5 +165,5 @@ $table = [
 </div>
 
 <?php
-require_once(__DIR__ . "/../../partials/flash.php");
+require_once(__DIR__ . "/../../../partials/flash.php");
 ?>

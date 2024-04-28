@@ -10,9 +10,6 @@
     $_view_url = se($data, "view_url", "", false);
     $_view_label = se($data, "view_label", "View", false);
     $_view_classes = se($data, "view_classes", "btn btn-primary", false);
-    // $_favorite_url = se($data, "favorite_url", "", false);
-    // $_favorite_label = se($data, "favorite_label", "Favorite", false);
-    // $_favorite_classes = se($data, "favorite_classes", "btn btn-primary", false);
     $_edit_url = se($data, "edit_url", "", false);
     $_edit_label = se($data, "edit_label", "Edit", false);
     $_edit_classes = se($data, "edit_classes", "btn btn-secondary", false);
