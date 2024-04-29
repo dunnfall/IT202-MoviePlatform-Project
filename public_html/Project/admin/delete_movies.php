@@ -1,19 +1,20 @@
 <?php
 
+//DF39 4/19/2024
 session_start();
 require(__DIR__ . "/../../../lib/functions.php");
 
 // require(__DIR__ . "/../../../lib/nav.php");
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
-    die(header("Location: " . get_url("admin/list_movies.php")));
+    redirect("home.php");
 }
 
 
 $id = se($_GET, "id", -1, false);
 if ($id < 1) {
     flash("Invalid Id Passed", "danger");
-    die(header("Location: " . get_url("admin/list_movies.php")));
+    redirect("admin/list_movies.php");
 }
 
 $db = getDB();
@@ -26,5 +27,5 @@ try {
     error_log("Error Deleting Movie $id" . var_export($e, true));
     flash("Error Deleting Movie", "danger");
 }
-die(header("Location: " . get_url("admin/list_movies.php")));
+redirect("admin/list_movies.php");
 
