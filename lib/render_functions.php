@@ -24,3 +24,8 @@ function render_result_counts($result_count, $total_count)
 {
     include(__DIR__ . "/../partials/result_counts.php");
 }
+
+function render_favorite_movie_card($broker = array())
+{
+    include(__DIR__ . "/../partials/favorite_movie_card.php");
+}
