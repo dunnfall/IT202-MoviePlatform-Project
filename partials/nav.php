@@ -58,10 +58,11 @@ session_start();
                         </a>
                         <ul class="dropdown-menu">
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/assign_roles.php'); ?>">Assign Roles</a></li>
+                            <li ><a class="dropdown-item" href="<?php echo get_url('admin/admin_user_association.php'); ?>">Assign Movies</a></li>
+                            <li ><a class="dropdown-item" href="<?php echo get_url('admin/movie_association.php'); ?>">Movie Association</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/create_role.php'); ?>">Create Role</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/list_roles.php'); ?>">List Roles</a></li>
                             <li ><a class="dropdown-item" href="<?php echo get_url('admin/list_movies.php'); ?>">Edit/Delete Movies</a></li>
-                            <li ><a class="dropdown-item" href="<?php echo get_url('admin/movie_association.php'); ?>">Movie Association</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>

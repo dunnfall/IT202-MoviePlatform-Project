@@ -21,8 +21,6 @@ if (isset($_GET["movie_id"]) && is_logged_in()) {
         error_log("Error Favoriting Movie: " . var_export($e, true));
     }
 }
-
 //for now I'll redirect, but if I later use AJAX I need to send a reply instead
 redirect("my_movies.php");
-
 ?>
