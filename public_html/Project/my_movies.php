@@ -4,10 +4,6 @@
 require(__DIR__ . "/../../partials/nav.php");
 ?>
 
-
-
-
-
 <?php
 $db = getDB();
 if (isset($_GET["remove"])) {
@@ -159,7 +155,7 @@ $table = [
     <div class="row w-100 row-cols-auto row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
         <?php foreach ($results as $broker) : ?>
             <div class="col">
-                <?php render_movie_card($broker); ?>
+                <?php render_favorite_movie_card($broker); ?>
             </div>
         <?php endforeach; ?>
         <?php if(count($results)===0):?>

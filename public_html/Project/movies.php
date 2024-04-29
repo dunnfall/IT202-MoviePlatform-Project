@@ -59,7 +59,7 @@ if (count($_GET) > 0) {
         $query .= " AND year like :year";
         $params[":year"] = "%$year%";
     }
-    
+    //DF39 4/29/2024
     //sort and order
     $sort = se($_GET, "sort", "name", false);
     if (!in_array($sort, ["title", "year"])) {
@@ -84,7 +84,7 @@ if (count($_GET) > 0) {
     //IMPORTANT make sure you fully validate/trust $limit (sql injection possibility)
     $query .= " LIMIT $limit";
 }
-
+//DF39 4/29/2024
 $db = getDB();
 $stmt = $db->prepare($query);
 $results = [];
