@@ -1,4 +1,6 @@
+
 <?php
+//DF39 4/29/2024
 if (!isset($result_count)) {
     $message = "Dev Note: result_count not set";
     error_log($message);

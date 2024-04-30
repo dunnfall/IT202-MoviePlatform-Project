@@ -66,6 +66,7 @@ if (count($_GET) > 0) {
         }
     }
     //title
+    //DF39 4/29/2024
     $title = se($_GET, "title", "", false);
     if (!empty($title)) {
         $query .= " AND title like :title";

@@ -1,4 +1,5 @@
 <?php
+//DF39 4/29/2024
 require(__DIR__ . "/../../../partials/nav.php");
 
 if (!has_role("Admin")) {
@@ -62,7 +63,7 @@ if (!empty($username) || !empty($movie_title)) {
     $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
-
+<!-- DF39 4/29/2024 -->
 <div class="container-fluid">
     <h1>Assign Movies</h1>
     <form method="POST">

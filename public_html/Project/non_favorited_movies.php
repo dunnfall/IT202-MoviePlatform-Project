@@ -1,6 +1,6 @@
 <?php
 //note we need to go up 1 more directory
-//DF39 4/19/2024
+//DF39 4/29/2024
 require(__DIR__ . "/../../partials/nav.php");
 ?>
 
@@ -85,7 +85,7 @@ if (count($_GET) > 0) {
     //IMPORTANT make sure you fully validate/trust $limit (sql injection possibility)
     $query .= " LIMIT $limit";
 }
-
+//DF39 4/29/2024
 $db = getDB();
 $stmt = $db->prepare($query);
 $results = [];
