@@ -62,6 +62,7 @@ if (count($_GET) > 0) {
         }
     }
     //username
+    //DF39 4/29/2024
     $username = se($_GET, "username", "", false);
     if (!empty($username)) {
         $query .= " AND u.username like :username";
@@ -105,7 +106,7 @@ if (count($_GET) > 0) {
     //IMPORTANT make sure you fully validate/trust $limit (sql injection possibility)
     $query .= " LIMIT $limit";
 }
-
+//DF39 4/29/2024
 $db = getDB();
 $stmt = $db->prepare($query);
 $results = [];
